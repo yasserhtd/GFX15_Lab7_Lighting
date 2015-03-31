@@ -92,6 +92,8 @@ void Renderer::Initialize()
 	AmbientLightID = glGetUniformLocation(programID,"ambientLight");
 	ambientLight = glm::vec3(0.1,0.1,0.1);
 	glUniform3fv(AmbientLightID,1, &ambientLight[0]);
+	//setup the eye position.
+	EyePositionID = glGetUniformLocation(programID,"EyePosition_worldspace");
 	//////////////////////////////////////////////////////////////////////////
 
 	//////////////////////////////////////////////////////////////////////////
@@ -102,6 +104,9 @@ void Renderer::Initialize()
 	myCamera->Reset(0.0,1.0,5.0,
 					0,0,0,
 					0,1,0);
+	
+	//send the eye position to the shaders.
+	glUniform3fv(EyePositionID,1, &myCamera->GetEyePosition()[0]);
 	//////////////////////////////////////////////////////////////////////////
 
 	triangle1M  = glm::translate(-1.0f, 0.5f,1.0f) * glm::rotate(-30.0f, glm::vec3(0,1,0)) * glm::scale(0.25f,0.25f,0.25f);
@@ -200,6 +205,10 @@ void Renderer::HandleKeyboardInput(int key)
 	//continue the remaining movements.
 
 	myCamera->UpdateViewMatrix();
+
+	//update the eye position uniform.
+	glUniform3fv(EyePositionID,1, &myCamera->GetEyePosition()[0]);
+
 }
 
 void Renderer::HandleMouse(double deltaX,double deltaY)
@@ -207,5 +216,6 @@ void Renderer::HandleMouse(double deltaX,double deltaY)
 	myCamera->Yaw(deltaX);
 	myCamera->Pitch(deltaY);
 	myCamera->UpdateViewMatrix();
-
+	//update the eye position uniform.
+	glUniform3fv(EyePositionID,1, &myCamera->GetEyePosition()[0]);
 }

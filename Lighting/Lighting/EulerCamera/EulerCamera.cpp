@@ -127,3 +127,8 @@ void EulerCamera::Fly(float dist)
 {
 	mPosition += dist * mUp;
 }
+
+glm::vec3 EulerCamera::GetEyePosition()
+{
+	return mPosition;
+}

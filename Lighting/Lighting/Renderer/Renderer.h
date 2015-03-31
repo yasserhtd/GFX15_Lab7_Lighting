@@ -24,6 +24,7 @@ class Renderer
 	GLuint ModelMatrixID;
 	GLuint AmbientLightID;
 	GLuint LightPositionID;
+	GLuint EyePositionID;
 
 	std::unique_ptr<Model> myTriangle;
 	std::unique_ptr<Model> mySquare;
