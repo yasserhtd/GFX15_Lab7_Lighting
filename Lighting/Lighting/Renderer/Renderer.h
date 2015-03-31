@@ -21,7 +21,9 @@ class Renderer
     
 	// Transformation
 	GLuint MatrixID;
+	GLuint ModelMatrixID;
 	GLuint AmbientLightID;
+	GLuint LightPositionID;
 
 	std::unique_ptr<Model> myTriangle;
 	std::unique_ptr<Model> mySquare;
@@ -34,7 +36,7 @@ class Renderer
 	glm::mat4 floorM;
 
 	glm::vec3 ambientLight;
-
+	glm::vec3 lightPosition;
 
 public:
     Renderer();

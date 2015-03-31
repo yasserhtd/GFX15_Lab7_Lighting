@@ -28,10 +28,6 @@ void Renderer::Initialize()
 	myTriangle->ColorData.push_back(glm::vec3(0.0f, 1.0f, 0.0f));
 	myTriangle->ColorData.push_back(glm::vec3(0.0f, 0.0f, 1.0f));
 
-	myTriangle->UVData.push_back(glm::vec2(0.0f,0.0f));
-	myTriangle->UVData.push_back(glm::vec2(1.0f,0.0f));
-	myTriangle->UVData.push_back(glm::vec2(0.0f,1.0f));
-
 	//calculate the normal of the triangle.
 	glm::vec3 edge1 = myTriangle->VertexData[1] - myTriangle->VertexData[0];
 	glm::vec3 edge2 = myTriangle->VertexData[2] - myTriangle->VertexData[0];
@@ -66,7 +62,11 @@ void Renderer::Initialize()
 	mySquare->IndicesData.push_back(1);
 	mySquare->IndicesData.push_back(2);
 	mySquare->IndicesData.push_back(3);
-
+	glm::vec3 squareNormal = glm::vec3(0.0,0.0,1.0);
+	mySquare->NormalsData.push_back(squareNormal);
+	mySquare->NormalsData.push_back(squareNormal);
+	mySquare->NormalsData.push_back(squareNormal);
+	mySquare->NormalsData.push_back(squareNormal);
 	mySquare->Initialize();
 
 	//////////////////////////////////////////////////////////////////////////
@@ -78,12 +78,16 @@ void Renderer::Initialize()
 	programID = LoadShaders( "SimpleTransformWithColor.vertexshader", "MultiColor.fragmentshader" );
 
 	MatrixID = glGetUniformLocation(programID, "MVP");
-
+	ModelMatrixID = glGetUniformLocation(programID, "ModelMatrix");
 	// Use our shader
 	glUseProgram(programID);
 
 	//////////////////////////////////////////////////////////////////////////
 	// Configure the light.
+	//setup the light position.
+	LightPositionID = glGetUniformLocation(programID,"LightPosition_worldspace");
+	lightPosition = glm::vec3(1.0,0.25,0.0);
+	glUniform3fv(LightPositionID,1, &lightPosition[0]);
 	//setup the ambient light component.
 	AmbientLightID = glGetUniformLocation(programID,"ambientLight");
 	ambientLight = glm::vec3(0.1,0.1,0.1);
@@ -95,14 +99,14 @@ void Renderer::Initialize()
 	myCamera->SetPerspectiveProjection(45.0f,4.0f/3.0f,0.1f,100.0f);
 
 	// View matrix : 
-	myCamera->Reset(0.0,0.0,5.0,
+	myCamera->Reset(0.0,1.0,5.0,
 					0,0,0,
 					0,1,0);
 	//////////////////////////////////////////////////////////////////////////
 
-	triangle1M  = glm::translate(-1.0f, -0.25f,1.0f) * glm::rotate(-30.0f, glm::vec3(0,1,0)) * glm::scale(0.25f,0.25f,0.25f);
+	triangle1M  = glm::translate(-1.0f, 0.5f,1.0f) * glm::rotate(-30.0f, glm::vec3(0,1,0)) * glm::scale(0.25f,0.25f,0.25f);
 	
-	floorM =  glm::scale(2.0f,2.0f,2.0f)*glm::translate(0.0f,-0.25f,0.0f)*glm::rotate(90.0f,glm::vec3(1.0f,0.0f,0.0f));
+	floorM =  glm::scale(2.0f,2.0f,2.0f)*glm::rotate(-90.0f,glm::vec3(1.0f,0.0f,0.0f));
 }
 
 void Renderer::Draw()
@@ -113,16 +117,21 @@ void Renderer::Draw()
 		//1st triangle
 		glm::mat4 triangle1MVP =   VP * triangle1M; 
 		glUniformMatrix4fv(MatrixID, 1, GL_FALSE, &triangle1MVP[0][0]);
+		//we need to send the model matrix to transform the normals too.
+		glUniformMatrix4fv(ModelMatrixID, 1, GL_FALSE, &triangle1M[0][0]);
 		myTriangle->Draw();
 		//the floor
 		glm::mat4 floorMVP =  VP * floorM; 
 		glUniformMatrix4fv(MatrixID, 1, GL_FALSE, &floorMVP[0][0]);
+		//we need to send the model matrix to transform the normals too.
+		glUniformMatrix4fv(ModelMatrixID, 1, GL_FALSE, &floorM[0][0]);
 		mySquare->Draw();
 
 
 
 		//////////////////////////////////////////////////////////////////////////
 		//Draw the cube.
+		glUniformMatrix4fv(ModelMatrixID, 1, GL_FALSE, &myCube->CubeModelMatrix[0][0]);
 		myCube->Draw(MatrixID,VP);
 		//////////////////////////////////////////////////////////////////////////
 }
