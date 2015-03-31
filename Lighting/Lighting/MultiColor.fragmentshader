@@ -24,6 +24,8 @@ void main()
 	vec3 reflectedLightVector = reflect(-lightVector,normal_worldspace);
 	vec3 eyeDirectionVector = normalize(EyePosition_worldspace - position_worldspace);
 	float specularity = dot(reflectedLightVector,eyeDirectionVector);
+	float specularExponent = 50;
+	specularity = pow(specularity,specularExponent);
 	vec3 specularLight = vec3(specularity,specularity,specularity);
 	specularLight = clamp(specularLight,0,1);
 
