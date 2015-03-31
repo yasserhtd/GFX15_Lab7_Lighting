@@ -10,8 +10,8 @@
 
 #include "Shaders/shader.hpp"
 #include "Model/Model.h"
-#include "FPCamera/FPCamera.h"
 #include "EulerCamera/EulerCamera.h"
+#include "Cube/Cube.h"
 
 class Renderer
 {
@@ -24,13 +24,11 @@ class Renderer
 	
 	std::unique_ptr<Model> myTriangle;
 	std::unique_ptr<Model> mySquare;
-	//std::unique_ptr<FPCamera> myCamera;
+	std::unique_ptr<Cube> myCube;
+
 	std::unique_ptr<EulerCamera> myCamera;
 
 	glm::mat4 triangle1M;
-	glm::mat4 triangle2M;
-	glm::mat4 triangle3M;
-	glm::mat4 triangle4M;
 
 	glm::mat4 floorM;
 

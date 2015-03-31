@@ -79,6 +79,7 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="Application Manager\ApplicationManager.cpp" />
+    <ClCompile Include="Cube\Cube.cpp" />
     <ClCompile Include="EulerCamera\EulerCamera.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="Model\Model.cpp" />
@@ -91,6 +92,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Application Manager\ApplicationManager.h" />
+    <ClInclude Include="Cube\Cube.h" />
     <ClInclude Include="EulerCamera\EulerCamera.h" />
     <ClInclude Include="Model\Model.h" />
     <ClInclude Include="Renderer\Renderer.h" />
