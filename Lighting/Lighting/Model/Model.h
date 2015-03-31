@@ -17,6 +17,7 @@ class Model
 	GLuint mColorDataBufferID;
 	GLuint mIndicesDataBufferID;
 	GLuint mUVDataBufferID;
+	GLuint mNormalsBufferID;
 	/*std::vector<glm::vec3> mNormalData;
 	std::vector<glm::vec2> mUVData;*/
 public:
@@ -27,6 +28,7 @@ public:
 	std::vector<glm::vec3> ColorData;
 	std::vector<unsigned short> IndicesData;
 	std::vector<glm::vec2> UVData;
+	std::vector<glm::vec3> NormalsData;
 	 void Initialize();
 	 void Draw();
 	 void Cleanup();
