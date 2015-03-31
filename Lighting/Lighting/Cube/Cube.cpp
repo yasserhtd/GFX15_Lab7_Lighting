@@ -20,10 +20,11 @@ void Cube::Initialize()
 	mSquare.VertexData.push_back(glm::vec3(1.0f, -1.0f, 0.0f));
 	mSquare.VertexData.push_back(glm::vec3( 1.0f,  1.0f, 0.0f));
 	mSquare.VertexData.push_back(glm::vec3( -1.0f,  1.0f, 0.0f));
-	mSquare.ColorData.push_back(glm::vec3(1.0f, 0.0f, 0.0f));
-	mSquare.ColorData.push_back(glm::vec3(0.0f, 1.0f, 0.0f));
-	mSquare.ColorData.push_back(glm::vec3(0.5f, 0.0f, 0.5f));
-	mSquare.ColorData.push_back(glm::vec3(1.0f, 0.5f, 0.5f));
+	//we want a gray cube cube.
+	mSquare.ColorData.push_back(glm::vec3(0.5f, 0.5f, 0.5f));
+	mSquare.ColorData.push_back(glm::vec3(0.5f, 0.5f, 0.5f));
+	mSquare.ColorData.push_back(glm::vec3(0.5f, 0.5f, 0.5f));
+	mSquare.ColorData.push_back(glm::vec3(0.5f, 0.5f, 0.5f));
 	//first.riangle.
 	mSquare.IndicesData.push_back(0);
 	mSquare.IndicesData.push_back(1);

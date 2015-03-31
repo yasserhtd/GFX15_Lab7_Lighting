@@ -31,6 +31,18 @@ void Renderer::Initialize()
 	myTriangle->UVData.push_back(glm::vec2(0.0f,0.0f));
 	myTriangle->UVData.push_back(glm::vec2(1.0f,0.0f));
 	myTriangle->UVData.push_back(glm::vec2(0.0f,1.0f));
+
+	//calculate the normal of the triangle.
+	glm::vec3 edge1 = myTriangle->VertexData[1] - myTriangle->VertexData[0];
+	glm::vec3 edge2 = myTriangle->VertexData[2] - myTriangle->VertexData[0];
+	glm::vec3 triangleNormal = glm::cross(edge1,edge2);
+	triangleNormal = glm::normalize(triangleNormal);
+
+	//since the triangle is not connected to anything else, so the normal is constant on all the vertices.
+	myTriangle->NormalsData.push_back(triangleNormal);
+	myTriangle->NormalsData.push_back(triangleNormal);
+	myTriangle->NormalsData.push_back(triangleNormal);
+
 	myTriangle->Initialize();
 
 	//drawing a square.
@@ -66,7 +78,18 @@ void Renderer::Initialize()
 	programID = LoadShaders( "SimpleTransformWithColor.vertexshader", "MultiColor.fragmentshader" );
 
 	MatrixID = glGetUniformLocation(programID, "MVP");
-	
+
+	// Use our shader
+	glUseProgram(programID);
+
+	//////////////////////////////////////////////////////////////////////////
+	// Configure the light.
+	//setup the ambient light component.
+	AmbientLightID = glGetUniformLocation(programID,"ambientLight");
+	ambientLight = glm::vec3(0.1,0.1,0.1);
+	glUniform3fv(AmbientLightID,1, &ambientLight[0]);
+	//////////////////////////////////////////////////////////////////////////
+
 	//////////////////////////////////////////////////////////////////////////
 	// Projection matrix : 
 	myCamera->SetPerspectiveProjection(45.0f,4.0f/3.0f,0.1f,100.0f);
@@ -84,9 +107,6 @@ void Renderer::Initialize()
 
 void Renderer::Draw()
 {		
-		// Use our shader
-		glUseProgram(programID);
-
 		// Send our transformation to the currently bound shader, 
 		// in the "MVP" uniform
 		glm::mat4 VP = myCamera->GetProjectionMatrix() * myCamera->GetViewMatrix();
