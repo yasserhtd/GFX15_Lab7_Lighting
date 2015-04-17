@@ -12,6 +12,7 @@
 #include "Model/Model.h"
 #include "EulerCamera/EulerCamera.h"
 #include "Cube/Cube.h"
+#include "Texture/texture.h"
 
 class Renderer
 {
@@ -29,12 +30,16 @@ class Renderer
 	std::unique_ptr<Model> myTriangle;
 	std::unique_ptr<Model> mySquare;
 	std::unique_ptr<Cube> myCube;
-
+	
 	std::unique_ptr<EulerCamera> myCamera;
 
 	glm::mat4 triangle1M;
 
 	glm::mat4 floorM;
+
+	std::unique_ptr<Model> myHouse;
+	std::unique_ptr<Texture> houseTexture;
+	glm::mat4 houseM;
 
 	glm::vec3 ambientLight;
 	glm::vec3 lightPosition;

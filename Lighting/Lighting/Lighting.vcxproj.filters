@@ -31,6 +31,15 @@
     <Filter Include="Cube">
       <UniqueIdentifier>{f1b3003d-903d-4959-b6ca-7d1bf2f5d1c1}</UniqueIdentifier>
     </Filter>
+    <Filter Include="OBJLoader">
+      <UniqueIdentifier>{4b730729-df22-4576-870c-19c536cae04e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Texture">
+      <UniqueIdentifier>{a4e0ef70-e3bf-4786-a707-9da2714038f3}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Texture\Texture Loader">
+      <UniqueIdentifier>{d7fd6632-4555-4c25-bea4-c8f540634ec9}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -53,6 +62,15 @@
     </ClCompile>
     <ClCompile Include="Cube\Cube.cpp">
       <Filter>Cube</Filter>
+    </ClCompile>
+    <ClCompile Include="OBJLoader\objloader.cpp">
+      <Filter>OBJLoader</Filter>
+    </ClCompile>
+    <ClCompile Include="Texture\texture.cpp">
+      <Filter>Texture</Filter>
+    </ClCompile>
+    <ClCompile Include="Texture\Texture Loader\stb_image.c">
+      <Filter>Texture\Texture Loader</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -81,6 +99,15 @@
     </ClInclude>
     <ClInclude Include="Cube\Cube.h">
       <Filter>Cube</Filter>
+    </ClInclude>
+    <ClInclude Include="OBJLoader\objloader.hpp">
+      <Filter>OBJLoader</Filter>
+    </ClInclude>
+    <ClInclude Include="Texture\texture.h">
+      <Filter>Texture</Filter>
+    </ClInclude>
+    <ClInclude Include="Texture\Texture Loader\stb_image.h">
+      <Filter>Texture\Texture Loader</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

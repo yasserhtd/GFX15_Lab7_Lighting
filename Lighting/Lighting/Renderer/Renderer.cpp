@@ -2,6 +2,7 @@
 
 #include <glm/gtc/matrix_transform.hpp> 
 #include <glm/gtx/transform.hpp>
+#include "OBJLoader/objloader.hpp"
 
 Renderer::Renderer()
 {
@@ -74,6 +75,23 @@ void Renderer::Initialize()
 	myCube->Initialize();
 	//////////////////////////////////////////////////////////////////////////
 
+
+	//////////////////////////////////////////////////////////////////////////
+	std::vector<glm::vec3> houseVertices;
+	std::vector<glm::vec3> houseNormals;
+	std::vector<glm::vec2> houseUVs;
+
+
+	if(loadOBJ("data/models/house/house.obj",houseVertices,houseUVs,houseNormals)){
+	myHouse = std::unique_ptr<Model>(new Model());
+	myHouse->VertexData = houseVertices;
+	myHouse->UVData = houseUVs;
+	myHouse->NormalsData = houseNormals;
+	myHouse->Initialize();
+	houseTexture = std::unique_ptr<Texture>(new Texture("data/models/house/house.jpg",1));
+	}
+	//////////////////////////////////////////////////////////////////////////
+
 	// Create and compile our GLSL program from the shaders
 	programID = LoadShaders( "SimpleTransformWithColor.vertexshader", "MultiColor.fragmentshader" );
 
@@ -112,6 +130,7 @@ void Renderer::Initialize()
 	triangle1M  = glm::translate(-1.0f, 0.5f,1.0f) * glm::rotate(-30.0f, glm::vec3(0,1,0)) * glm::scale(0.25f,0.25f,0.25f);
 	
 	floorM =  glm::scale(2.0f,2.0f,2.0f)*glm::rotate(-90.0f,glm::vec3(1.0f,0.0f,0.0f));
+	houseM = glm::scale(0.1f,0.1f,0.1f);
 }
 
 void Renderer::Draw()
@@ -133,12 +152,17 @@ void Renderer::Draw()
 		mySquare->Draw();
 
 
+		houseTexture->Bind();
+		glm::mat4 houseMVP = VP*houseM;
+		glUniformMatrix4fv(MatrixID, 1, GL_FALSE, &houseMVP[0][0]);
+		glUniformMatrix4fv(ModelMatrixID, 1, GL_FALSE, &houseM[0][0]);
+		myHouse->Draw();
 
-		//////////////////////////////////////////////////////////////////////////
-		//Draw the cube.
-		glUniformMatrix4fv(ModelMatrixID, 1, GL_FALSE, &myCube->CubeModelMatrix[0][0]);
-		myCube->Draw(MatrixID,VP);
-		//////////////////////////////////////////////////////////////////////////
+		////////////////////////////////////////////////////////////////////////////
+		////Draw the cube.
+		//glUniformMatrix4fv(ModelMatrixID, 1, GL_FALSE, &myCube->CubeModelMatrix[0][0]);
+		//myCube->Draw(MatrixID,VP);
+		////////////////////////////////////////////////////////////////////////////
 }
 
 void Renderer::Cleanup()
@@ -219,3 +243,4 @@ void Renderer::HandleMouse(double deltaX,double deltaY)
 	//update the eye position uniform.
 	glUniform3fv(EyePositionID,1, &myCamera->GetEyePosition()[0]);
 }
+

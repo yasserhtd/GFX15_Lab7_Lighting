@@ -83,8 +83,11 @@
     <ClCompile Include="EulerCamera\EulerCamera.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="Model\Model.cpp" />
+    <ClCompile Include="OBJLoader\objloader.cpp" />
     <ClCompile Include="Renderer\Renderer.cpp" />
     <ClCompile Include="Shaders\shader.cpp" />
+    <ClCompile Include="Texture\Texture Loader\stb_image.c" />
+    <ClCompile Include="Texture\texture.cpp" />
   </ItemGroup>
   <ItemGroup>
     <None Include="MultiColor.fragmentshader" />
@@ -95,8 +98,11 @@
     <ClInclude Include="Cube\Cube.h" />
     <ClInclude Include="EulerCamera\EulerCamera.h" />
     <ClInclude Include="Model\Model.h" />
+    <ClInclude Include="OBJLoader\objloader.hpp" />
     <ClInclude Include="Renderer\Renderer.h" />
     <ClInclude Include="Shaders\shader.hpp" />
+    <ClInclude Include="Texture\Texture Loader\stb_image.h" />
+    <ClInclude Include="Texture\texture.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
