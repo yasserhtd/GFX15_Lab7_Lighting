@@ -57,7 +57,7 @@
     <Link>
       <SubSystem>Console</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalDependencies>opengl32.lib;glew32.lib;glfw3.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>opengl32.lib;glew32.lib;glfw3.lib;assimp.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
@@ -81,10 +81,14 @@
     <ClCompile Include="Application Manager\ApplicationManager.cpp" />
     <ClCompile Include="Cube\Cube.cpp" />
     <ClCompile Include="EulerCamera\EulerCamera.cpp" />
+    <ClCompile Include="GraphicsDevice\ShaderProgram.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="Model\Model.cpp" />
     <ClCompile Include="OBJLoader\objloader.cpp" />
     <ClCompile Include="Renderer\Renderer.cpp" />
+    <ClCompile Include="Scene\Model3D.cpp" />
+    <ClCompile Include="Scene\ModelNode.cpp" />
+    <ClCompile Include="Scene\TexturedModel.cpp" />
     <ClCompile Include="Shaders\shader.cpp" />
     <ClCompile Include="Texture\Texture Loader\stb_image.c" />
     <ClCompile Include="Texture\texture.cpp" />
@@ -97,9 +101,13 @@
     <ClInclude Include="Application Manager\ApplicationManager.h" />
     <ClInclude Include="Cube\Cube.h" />
     <ClInclude Include="EulerCamera\EulerCamera.h" />
+    <ClInclude Include="GraphicsDevice\ShaderProgram.h" />
     <ClInclude Include="Model\Model.h" />
     <ClInclude Include="OBJLoader\objloader.hpp" />
     <ClInclude Include="Renderer\Renderer.h" />
+    <ClInclude Include="Scene\Model3D.h" />
+    <ClInclude Include="Scene\ModelNode.h" />
+    <ClInclude Include="Scene\TexturedModel.h" />
     <ClInclude Include="Shaders\shader.hpp" />
     <ClInclude Include="Texture\Texture Loader\stb_image.h" />
     <ClInclude Include="Texture\texture.h" />

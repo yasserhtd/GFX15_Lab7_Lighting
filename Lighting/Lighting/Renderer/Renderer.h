@@ -13,13 +13,15 @@
 #include "EulerCamera/EulerCamera.h"
 #include "Cube/Cube.h"
 #include "Texture/texture.h"
+#include "GraphicsDevice/ShaderProgram.h"
+#include "Scene/Model3D.h"
 
 class Renderer
 {
 
 
     GLuint programID;
-    
+    ShaderProgram shader;
 	// Transformation
 	GLuint MatrixID;
 	GLuint ModelMatrixID;
@@ -30,7 +32,8 @@ class Renderer
 	std::unique_ptr<Model> myTriangle;
 	std::unique_ptr<Model> mySquare;
 	std::unique_ptr<Cube> myCube;
-	
+	std::unique_ptr<Model3D> mySpider;
+
 	std::unique_ptr<EulerCamera> myCamera;
 
 	glm::mat4 triangle1M;
@@ -40,6 +43,7 @@ class Renderer
 	std::unique_ptr<Model> myHouse;
 	std::unique_ptr<Texture> houseTexture;
 	glm::mat4 houseM;
+	glm::mat4 spiderM;
 
 	glm::vec3 ambientLight;
 	glm::vec3 lightPosition;

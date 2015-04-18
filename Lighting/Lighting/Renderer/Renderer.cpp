@@ -76,12 +76,12 @@ void Renderer::Initialize()
 	//////////////////////////////////////////////////////////////////////////
 
 
+
 	//////////////////////////////////////////////////////////////////////////
+	//Load model from OBJ file.
 	std::vector<glm::vec3> houseVertices;
 	std::vector<glm::vec3> houseNormals;
 	std::vector<glm::vec2> houseUVs;
-
-
 	if(loadOBJ("data/models/house/house.obj",houseVertices,houseUVs,houseNormals)){
 	myHouse = std::unique_ptr<Model>(new Model());
 	myHouse->VertexData = houseVertices;
@@ -92,26 +92,36 @@ void Renderer::Initialize()
 	}
 	//////////////////////////////////////////////////////////////////////////
 
-	// Create and compile our GLSL program from the shaders
-	programID = LoadShaders( "SimpleTransformWithColor.vertexshader", "MultiColor.fragmentshader" );
+	//////////////////////////////////////////////////////////////////////////
+	//load model.
+	mySpider = std::unique_ptr<Model3D>(new Model3D());
+	//read model and it's textures from HDD.
+	mySpider->LoadFromFile("data/models/Spider/spider.obj",true);
+	//send the meshes to the GPU.
+	mySpider->Initialize();
+	//////////////////////////////////////////////////////////////////////////
 
-	MatrixID = glGetUniformLocation(programID, "MVP");
-	ModelMatrixID = glGetUniformLocation(programID, "ModelMatrix");
+	// Create and compile our GLSL program from the shaders
+	//programID = LoadShaders( "SimpleTransformWithColor.vertexshader", "MultiColor.fragmentshader" );
+	shader.LoadProgram();
+	MatrixID = glGetUniformLocation(shader.programID, "MVP");
+	ModelMatrixID = glGetUniformLocation(shader.programID, "ModelMatrix");
 	// Use our shader
-	glUseProgram(programID);
+	//glUseProgram(programID);
+	shader.UseProgram();
 
 	//////////////////////////////////////////////////////////////////////////
 	// Configure the light.
 	//setup the light position.
-	LightPositionID = glGetUniformLocation(programID,"LightPosition_worldspace");
+	LightPositionID = glGetUniformLocation(shader.programID,"LightPosition_worldspace");
 	lightPosition = glm::vec3(1.0,0.25,0.0);
 	glUniform3fv(LightPositionID,1, &lightPosition[0]);
 	//setup the ambient light component.
-	AmbientLightID = glGetUniformLocation(programID,"ambientLight");
+	AmbientLightID = glGetUniformLocation(shader.programID,"ambientLight");
 	ambientLight = glm::vec3(0.1,0.1,0.1);
 	glUniform3fv(AmbientLightID,1, &ambientLight[0]);
 	//setup the eye position.
-	EyePositionID = glGetUniformLocation(programID,"EyePosition_worldspace");
+	EyePositionID = glGetUniformLocation(shader.programID,"EyePosition_worldspace");
 	//////////////////////////////////////////////////////////////////////////
 
 	//////////////////////////////////////////////////////////////////////////
@@ -131,33 +141,40 @@ void Renderer::Initialize()
 	
 	floorM =  glm::scale(2.0f,2.0f,2.0f)*glm::rotate(-90.0f,glm::vec3(1.0f,0.0f,0.0f));
 	houseM = glm::scale(0.1f,0.1f,0.1f);
+	spiderM = glm::scale(0.01f,0.01f,0.01f);
 }
 
 void Renderer::Draw()
 {		
+		shader.UseProgram();
+
 		// Send our transformation to the currently bound shader, 
 		// in the "MVP" uniform
 		glm::mat4 VP = myCamera->GetProjectionMatrix() * myCamera->GetViewMatrix();
+		shader.BindVPMatrix(&VP[0][0]);
 		//1st triangle
-		glm::mat4 triangle1MVP =   VP * triangle1M; 
-		glUniformMatrix4fv(MatrixID, 1, GL_FALSE, &triangle1MVP[0][0]);
+
+		/*glm::mat4 triangle1MVP =   VP * triangle1M; 
+		glUniformMatrix4fv(MatrixID, 1, GL_FALSE, &triangle1MVP[0][0]);*/
+
 		//we need to send the model matrix to transform the normals too.
-		glUniformMatrix4fv(ModelMatrixID, 1, GL_FALSE, &triangle1M[0][0]);
+		//glUniformMatrix4fv(ModelMatrixID, 1, GL_FALSE, &triangle1M[0][0]);
+		shader.BindModelMatrix(&triangle1M[0][0]);
 		myTriangle->Draw();
 		//the floor
-		glm::mat4 floorMVP =  VP * floorM; 
-		glUniformMatrix4fv(MatrixID, 1, GL_FALSE, &floorMVP[0][0]);
 		//we need to send the model matrix to transform the normals too.
-		glUniformMatrix4fv(ModelMatrixID, 1, GL_FALSE, &floorM[0][0]);
+		//glUniformMatrix4fv(ModelMatrixID, 1, GL_FALSE, &floorM[0][0]);
+		shader.BindModelMatrix(&floorM[0][0]);
 		mySquare->Draw();
 
 
 		houseTexture->Bind();
-		glm::mat4 houseMVP = VP*houseM;
-		glUniformMatrix4fv(MatrixID, 1, GL_FALSE, &houseMVP[0][0]);
-		glUniformMatrix4fv(ModelMatrixID, 1, GL_FALSE, &houseM[0][0]);
+	//	glUniformMatrix4fv(ModelMatrixID, 1, GL_FALSE, &houseM[0][0]);
+		shader.BindModelMatrix(&houseM[0][0]);
 		myHouse->Draw();
 
+		
+		mySpider->Render(&shader,spiderM);
 		////////////////////////////////////////////////////////////////////////////
 		////Draw the cube.
 		//glUniformMatrix4fv(ModelMatrixID, 1, GL_FALSE, &myCube->CubeModelMatrix[0][0]);

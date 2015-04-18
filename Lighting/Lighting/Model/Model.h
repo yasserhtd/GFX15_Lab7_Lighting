@@ -30,7 +30,7 @@ public:
 	std::vector<glm::vec2> UVData;
 	std::vector<glm::vec3> NormalsData;
 	 void Initialize();
-	 void Draw();
+	virtual void Draw();
 	 void Cleanup();
 
 };

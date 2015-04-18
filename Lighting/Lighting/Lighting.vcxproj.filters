@@ -40,6 +40,12 @@
     <Filter Include="Texture\Texture Loader">
       <UniqueIdentifier>{d7fd6632-4555-4c25-bea4-c8f540634ec9}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Scene">
+      <UniqueIdentifier>{9040fa8e-8d16-4a61-8836-6842755cad7a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ShaderProgram">
+      <UniqueIdentifier>{95164bf2-6320-4ee7-9ef8-6f8de38fbd5a}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -71,6 +77,18 @@
     </ClCompile>
     <ClCompile Include="Texture\Texture Loader\stb_image.c">
       <Filter>Texture\Texture Loader</Filter>
+    </ClCompile>
+    <ClCompile Include="Scene\Model3D.cpp">
+      <Filter>Scene</Filter>
+    </ClCompile>
+    <ClCompile Include="Scene\ModelNode.cpp">
+      <Filter>Scene</Filter>
+    </ClCompile>
+    <ClCompile Include="Scene\TexturedModel.cpp">
+      <Filter>Scene</Filter>
+    </ClCompile>
+    <ClCompile Include="GraphicsDevice\ShaderProgram.cpp">
+      <Filter>ShaderProgram</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -108,6 +126,18 @@
     </ClInclude>
     <ClInclude Include="Texture\Texture Loader\stb_image.h">
       <Filter>Texture\Texture Loader</Filter>
+    </ClInclude>
+    <ClInclude Include="Scene\Model3D.h">
+      <Filter>Scene</Filter>
+    </ClInclude>
+    <ClInclude Include="Scene\ModelNode.h">
+      <Filter>Scene</Filter>
+    </ClInclude>
+    <ClInclude Include="Scene\TexturedModel.h">
+      <Filter>Scene</Filter>
+    </ClInclude>
+    <ClInclude Include="GraphicsDevice\ShaderProgram.h">
+      <Filter>ShaderProgram</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>
